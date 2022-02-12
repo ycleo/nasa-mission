@@ -5,12 +5,13 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "nodemon src/server.js",
+    "nodemon": "PORT=5000 nodemon src/server.js",
     "start": "PORT=5000 node src/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.2"
   },
   "devDependencies": {
