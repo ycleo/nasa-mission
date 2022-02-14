@@ -7,7 +7,7 @@ const launch = {
     mission: 'Kepler Exploration X',
     rocket: 'spaceX model 5.0',
     launchDate: new Date('December 12, 2033'),
-    destination: 'Kepler-442 b',
+    target: 'Kepler-442 b',
     customer: ['Taiwan', 'Elon Musk'],
     upcoming: true,
     success: true,
@@ -29,7 +29,7 @@ function addNewLaunch (launch) {
                 customer: ['Taiwan', 'Elon Musk'],
                 upcoming: true,
                 success: true,
-            }))
+            }));
 }
 
 module.exports = {
