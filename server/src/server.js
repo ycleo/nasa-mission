@@ -5,7 +5,7 @@ const app = require('./app');
 const { loadPlanetsData } = require('./models/planets.model');
 
 const server = http.createServer(app); // add express app middleware on top of the built-in http server
-const PORT = process.env.PORT || 8000; // process.env.PORT can be found in package.json (PORT=5000)
+const PORT = process.env.PORT; // process.env.PORT can be found in package.json (PORT=5000)
 const MONGO_URL = 'mongodb+srv://rocket-mission-api:UbQAOCQgGleUyDmO@cluster0.9ycev.mongodb.net/rocket?retryWrites=true&w=majority';
 
 mongoose.connection.once('open', () => {
