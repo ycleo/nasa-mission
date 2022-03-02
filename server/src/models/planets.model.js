@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // const habitablePlanets = [];
-const planets = require('./planets.mongo');
+const planets = require('./planets.mongo'); // "planets" collection
 
 
 const isHabitable = (planet) => {
@@ -21,11 +21,12 @@ function loadPlanetsData () {
             columns: true, // infer the columns names from the first line.
         }))   
         .on('data', async (data) => {  // get one planet data
-            if (isHabitable(data))
+            if (isHabitable(data)) {
                 // await habitablePlanets.push(data);
                 // TODO: Replace below create with insert + update (upsert)
                 // await planets.create({keplerName: data.kepler_name});
                 await savePlanet(data);
+            }
         })
         .on('error', (err) => {  // print the error message if error happened
             console.log(err);
@@ -35,7 +36,6 @@ function loadPlanetsData () {
             // console.log(habitablePlanets.map((planet) => {
             //     return planet['kepler_name'];
             // }));
-
             const allPlanets = await getAllPlanets();
             const planetsCount = allPlanets.length;
             console.log(`There are ${planetsCount} habitable planets.`);
@@ -52,7 +52,7 @@ async function getAllPlanets () {
 async function savePlanet (planet) {
     try {
         await planets.updateOne({ keplerName: planet.kepler_name }, // find the planet that matches the name 
-            { keplerName: planets.kepler_name }, { upsert: true }); // create the planet document if it doesn't match
+            { keplerName: planet.kepler_name }, { upsert: true }); // create the planet document if it doesn't match
     } catch (error) {
         console.log(`Could not save planet because... ${error}`);
     }
