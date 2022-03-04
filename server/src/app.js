@@ -13,8 +13,8 @@ app.use(cors({ // middleware to set the cors rule
 app.use(morgan('combined')); // middleware to record the client log
 app.use(express.json());    // middleware that only parses json
 app.use(express.static(path.join(__dirname, '..', 'public'))); // middleware to serve static files
-app.use('/planets', planetsRouter); // middleware to connect to planets router
-app.use('/launches', launchesRouter); // middleware to connect to launches router
+app.use('/planets', planetsRouter); // middleware to load the planetsRouter on '/planets'
+app.use('/launches', launchesRouter); // middleware to load the launchesRouter on '/launches'
 
 app.get('/*', (req, res) => {  // express will match the end point that was not found in the above routes
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html')); 
