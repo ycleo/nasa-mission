@@ -1,15 +1,17 @@
 const { 
     getAllLaunches, 
     addNewLaunch, 
-    launchExists, 
-    abortLaunchById 
+    launchExistsWithFlightNumber, 
+    abortLaunchByFlightNumber, 
 } = require('../../models/launches.model');
 
+/* GET all launches */
 async function httpGetAllLaunches (req, res) {
     return res.status(200).json(await getAllLaunches());
 }
 
-function httpAddNewLaunch (req, res) {
+/* POST (Add) new launch */
+async function httpAddNewLaunch (req, res) {
     const launch = req.body;
     // check if any info is missing
     if (!launch.mission || !launch.rocket || !launch.launchDate || !launch.target) {
@@ -25,21 +27,31 @@ function httpAddNewLaunch (req, res) {
         });
     } 
 
-    addNewLaunch(launch);
+    await addNewLaunch(launch);
     return res.status(201).json(launch);
 }
 
-function httpAbortLaunch (req, res) {
-    const launchId = Number(req.params.id);
-    // 1. check the launch id exists
-    if (!launchExists(launchId)) {
+/* DELETE (Abort) launch */
+async function httpAbortLaunch (req, res) {
+    // http://.../launches/:id (id represents the flight number of certain launch)
+    const launchFlightNumber = Number(req.params.id);
+    // 1. check the launch flight number exists
+    const launchExists = await launchExistsWithFlightNumber(launchFlightNumber);
+    if (!launchExists) {
         return res.status(404).json({
-            error: "Launch not found",
+            error: "Launch not found...",
         });
     }
     // 2. abort the launch
-    const abortedLaunch = abortLaunchById(launchId);
-    return res.status(200).json(abortedLaunch);
+    const abortDone = await abortLaunchByFlightNumber(launchFlightNumber);
+    if(!abortDone) {
+        return res.status(400).json({
+            error: "Abort failed..."
+        });
+    }
+    return res.status(200).json({
+        abort: "Done", 
+    });
 }
 
 module.exports = { 

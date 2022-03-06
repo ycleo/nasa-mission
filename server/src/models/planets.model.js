@@ -1,15 +1,36 @@
 const { parse } = require('csv-parse');
 const fs = require('fs');
-const path = require('path');
-
+const path = require('path');''
 // const habitablePlanets = [];
 const planets = require('./planets.mongo'); // "planets" collection
 
+/* GET all planets */
+async function getAllPlanets () {
+    // return habitablePlanets;
+    return await planets.find({}, {'_id': 0, '__v': 0}); 
+    // The first bracket is "filter": to set the target properties we are finding
+    // In this case, the bracket is empty => means no filter or restriction => find all
+    // The second bracket is "projection": to "exclude" some return properties => set them to '0' (false)
+}
 
+/* POST all habitable planets: laodPlanetsData (check server.js file) */
+
+// The filter of habitable planets
 const isHabitable = (planet) => {
-return planet['koi_disposition'] === 'CONFIRMED'
-    && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
-    && planet['koi_prad'] < 1.6;
+    return planet['koi_disposition'] === 'CONFIRMED'
+        && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
+        && planet['koi_prad'] < 1.6;
+}
+
+// Save a new filtered (habitable) planet to DB 
+// upsert: insert + update
+async function savePlanet (planet) {
+    try {
+        await planets.updateOne({ keplerName: planet.kepler_name }, // find the planet that matches the name 
+            { keplerName: planet.kepler_name }, { upsert: true }); // create the planet document only if it doesn't match
+    } catch (error) {
+        console.log(`Could not save planet because... ${error}`);
+    }
 }
 
 function loadPlanetsData () {
@@ -23,9 +44,8 @@ function loadPlanetsData () {
         .on('data', async (data) => {  // get one planet data
             if (isHabitable(data)) {
                 // await habitablePlanets.push(data);
-                // TODO: Replace below create with insert + update (upsert)
                 // await planets.create({keplerName: data.kepler_name});
-                await savePlanet(data);
+                await savePlanet(data); 
             }
         })
         .on('error', (err) => {  // print the error message if error happened
@@ -44,21 +64,7 @@ function loadPlanetsData () {
     });
 }
 
-async function getAllPlanets () {
-    // return habitablePlanets;
-    return await planets.find({}); 
-}
-
-async function savePlanet (planet) {
-    try {
-        await planets.updateOne({ keplerName: planet.kepler_name }, // find the planet that matches the name 
-            { keplerName: planet.kepler_name }, { upsert: true }); // create the planet document if it doesn't match
-    } catch (error) {
-        console.log(`Could not save planet because... ${error}`);
-    }
-}
-
 module.exports = {
-    loadPlanetsData,
     getAllPlanets,
+    loadPlanetsData,
 };
