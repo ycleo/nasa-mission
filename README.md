@@ -11,5 +11,5 @@
 - [NASA Exoplanet Archive - KOI Table (Cumulative list)](https://exoplanetarchive.ipac.caltech.edu/docs/data.html): To get exoplanet data (kepler_data.csv)
 - [SpaceX-API](https://github.com/r-spacex/SpaceX-API): To get SpaceX mission history data
 
-![image](https://user-images.githubusercontent.com/64058170/157264935-25f8aa2c-8359-424c-8094-3907fafb517b.png)
+![image](https://user-images.githubusercontent.com/64058170/157365065-a6015113-bd02-46fb-8449-b8374b9b2fea.png)
 
