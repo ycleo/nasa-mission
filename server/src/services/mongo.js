@@ -1,9 +1,8 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
-const MONGO_URL = 'mongodb+srv://rocket-mission-api:UbQAOCQgGleUyDmO@cluster0.9ycev.mongodb.net/rocket?retryWrites=true&w=majority';
-
 async function mongoConnect () {
-    await mongoose.connect(MONGO_URL); // use mongoose api to connect to remote MongoDB 
+    await mongoose.connect(process.env.MONGO_URL); // use mongoose api to connect to remote MongoDB 
 };
 
 mongoose.connection.once('open', () => {
