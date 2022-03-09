@@ -1,3 +1,8 @@
+/* 
+  Important Concept!!!
+ "separation of concern": model should process data before controller usage
+*/
+
 const { parse } = require('csv-parse');
 const fs = require('fs');
 const path = require('path');''
@@ -7,7 +12,7 @@ const planets = require('./planets.mongo'); // "planets" collection
 /* GET all planets */
 async function getAllPlanets () {
     // return habitablePlanets;
-    return await planets.find({}, {'_id': 0, '__v': 0}); 
+    return await planets.find({}, {'_id': 0, '__v': 0})
     // The first bracket is "filter": to set the target properties we are finding
     // In this case, the bracket is empty => means no filter or restriction => find all
     // The second bracket is "projection": to "exclude" some return properties => set them to '0' (false)

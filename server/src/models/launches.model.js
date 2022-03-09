@@ -1,5 +1,7 @@
-// "separation of concern": model should processe data before controller usage
-require('dotenv').config();
+/* 
+  Important Concept!!!
+ "separation of concern": model should process data before controller usage
+*/
 const axios = require('axios');
 
 // ".mongo" should be the lower layer to support ".model", and each ".model" are better to not intertwine
@@ -115,12 +117,16 @@ async function loadLaunchesData () {
 }
 
 /* GET all launches in remote MongoDB */ 
-async function getAllLaunches () {
+async function getAllLaunches (skip, limit) {
     // return Array.from(launches.values());
-    return await launchesDB.find({}, {'_id': 0, '__v': 0});
-    // The first bracket is "filter": to set the target properties we are finding
-    // In this case, the bracket is empty => means no filter or restriction => find all
-    // The second bracket is "projection": to "exclude" some return properties => set them to '0' (false)
+    return await launchesDB.find({}, {'_id': 0, '__v': 0})
+                           .sort("flightNumber")
+                           .skip(skip).limit(limit);
+    // find(): The first bracket is "filter" -> To set the target properties we are finding
+        // In this case, the bracket is empty -> means no filter or restriction -> find all
+        // The second bracket is "projection" -> To "exclude" some return properties => set them to '0' (false)
+    // sort(): sort it based on the flightNumber (+: ascending, -: descending)
+    // skip() and limit(): the pagination setting
 }
 
 /* POST (Add) a new launch to remote MongoDB */
