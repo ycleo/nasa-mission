@@ -15,6 +15,11 @@ on:
 jobs:
   # This workflow contains 
   build:
+  env:
+    CI: true  # can help disable the watch mode
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -23,15 +28,16 @@ jobs:
       # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # 2. Setup Node.js version 16
-      - name: Use Node.js version 16
+      - name: Use Node.js version ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: ${{ matrix.node-version }}
       # 3. Runs commands using the runners shell
       - name: Install project dependencies by npm
         run: npm install
       - name: Build the client side code
         run: npm run build --prefix client
+      - run: npm test
 
       # The way to Run a set of commands using the runners shell
 #     - name: Run a multi-line script
