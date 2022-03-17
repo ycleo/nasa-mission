@@ -17,9 +17,11 @@ jobs:
   build:
     env:
       CI: true  # can help disable the watch mode
+      MONGO_URL: mongodb://localhost/rocket
     strategy:
       matrix:
         node-version: [14.x, 16.x]
+        mongodb-version: ['4.4']
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -32,6 +34,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: MongoDB in GitHub Actions
+        uses: supercharge/mongodb-github-action@1.7.0
+        with: 
+          mongodb-version: ${{ matrix.mongodb-version }}
       # 3. Runs commands using the runners shell
       - name: Install project dependencies by npm
         run: npm install
