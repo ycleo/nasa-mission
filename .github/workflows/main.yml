@@ -15,8 +15,8 @@ on:
 jobs:
   # This workflow contains 
   build:
-  env:
-    CI: true  # can help disable the watch mode
+    env:
+      CI: true  # can help disable the watch mode
     strategy:
       matrix:
         node-version: [14.x, 16.x]
