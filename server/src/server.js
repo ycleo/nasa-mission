@@ -7,7 +7,7 @@ const { loadPlanetsData } = require('./models/planets.model');
 const { loadLaunchesData } = require('./models/launches.model');
 
 const server = http.createServer(app); // add express app middleware on top of the built-in http server
-const PORT = process.env.PORT; // process.env.PORT can be set in .env or package.json script (PORT=5000)
+const PORT = process.env.PORT || 8000; // process.env.PORT can be set in .env or package.json script (PORT=5000)
 
 // Why using asynce await syntax? => we want to perform certain actions before server start to response clients
 async function startServer () {

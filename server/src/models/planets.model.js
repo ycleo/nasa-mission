@@ -3,9 +3,9 @@
  "separation of concern": model should process data before controller usage
 */
 
-const { parse } = require('csv-parse');
 const fs = require('fs');
-const path = require('path');''
+const path = require('path');
+const parse = require('csv-parse');
 // const habitablePlanets = [];
 const planets = require('./planets.mongo'); // "planets" collection
 
@@ -21,7 +21,7 @@ async function getAllPlanets () {
 /* POST all habitable planets: laodPlanetsData (check server.js file) */
 
 // The filter of habitable planets
-const isHabitable = (planet) => {
+function isHabitable (planet) {
     return planet['koi_disposition'] === 'CONFIRMED'
         && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
         && planet['koi_prad'] < 1.6;
