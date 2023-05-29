@@ -1,4 +1,4 @@
-# [Rocket Mission](http://18.138.254.161:8000/)
+# [Rocket Mission](http://52.201.3.67:8000)
 **It is a simulation dashboard for rocket mission control.**
 
 ![image](https://user-images.githubusercontent.com/64058170/157267476-718c1432-d902-4d62-bb19-abdb851b8006.png)
